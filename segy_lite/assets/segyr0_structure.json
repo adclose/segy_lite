@@ -1,0 +1,356 @@
+{
+
+  "file_text_header": {
+    "bytes": 3200,
+    "fields": {
+      "text": {
+        "bytes": 3200,
+        "format": [
+          "ASCII",
+          "EBCDIC"
+        ]
+      }
+    }
+  },
+  "binary_header": {
+    "bytes": 400,
+    "fields": {
+      "job_id": {
+        "start_byte": 1,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "line_number": {
+        "start_byte": 5,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "reel_number": {
+        "start_byte": 9,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "traces_ensemble": {
+        "start_byte": 13,
+        "length_bytes": 2,
+        "units": "count"
+      },
+      "traces_ensemble_aux": {
+        "start_byte": 15,
+        "length_bytes": 2,
+        "units": "count"
+      },
+      "sample_interval": {
+        "start_byte": 17,
+        "length_bytes": 2,
+        "units": "micro seconds"
+      },
+      "sample_interval_recorded": {
+        "start_byte": 19,
+        "length_bytes": 2,
+        "units": "micro seconds"
+      },
+      "samples_per_trace": {
+        "start_byte": 21,
+        "length_bytes": 2,
+        "units": "samples"
+      },
+      "samples_per_trace_recorded": {
+        "start_byte": 23,
+        "length_bytes": 2,
+        "units": "samples"
+      },
+      "data_sample_format_code": {
+        "start_byte": 25,
+        "length_bytes": 2,
+        "units": "code"
+      },
+      "fold": {
+        "start_byte": 27,
+        "length_bytes": 2,
+        "units": "count"
+      },
+      "sorting_code": {
+        "start_byte": 29,
+        "length_bytes": 2,
+        "units": "code"
+      },
+      "vertical_sum": {
+        "start_byte": 31,
+        "length_bytes": 2,
+        "units": "micro seconds"
+      },
+      "sweep_start_frequency": {
+        "start_byte": 33,
+        "length_bytes": 2,
+        "units": "Hz"
+      },
+      "sweep_end_frequency": {
+        "start_byte": 35,
+        "length_bytes": 2,
+        "units": "Hz"
+      },
+      "sweep_length": {
+        "start_byte": 37,
+        "length_bytes": 2,
+        "units": "milliseconds"
+      },
+      "sweep_type": {
+        "start_byte": 39,
+        "length_bytes": 2,
+        "units": "code"
+      },
+      "sweep_channel_trace": {
+        "start_byte": 41,
+        "length_bytes": 2,
+        "units": "#"
+      },
+      "sweep_taper_length_beginning": {
+        "start_byte": 43,
+        "length_bytes": 2,
+        "units": "milliseconds"
+      },
+      "sweep_taper_length_ending": {
+        "start_byte": 45,
+        "length_bytes": 2,
+        "units": "micro seconds"
+      },
+      "taper_type": {
+        "start_byte": 47,
+        "length_bytes": 2,
+        "units": "code"
+      },
+      "correlated_traces": {
+        "start_byte": 49,
+        "length_bytes": 2,
+        "units": "code 1-yes, 2=no"
+      },
+      "binary_gain_recovered": {
+        "start_byte": 51,
+        "length_bytes": 2,
+        "units": "code 1-yes, 2=no"
+      },
+      "amplitude_recovery_method": {
+        "start_byte": 53,
+        "length_bytes": 2,
+        "units": "code 1-none, 2=spherical divergence, 3=AGC, 4=Other"
+      },
+      "measurement_system": {
+        "start_byte": 55,
+        "length_bytes": 2,
+        "units": "code 1-meters, 2=feet"
+      },
+      "polartiy_geophone": {
+        "start_byte": 57,
+        "length_bytes": 2,
+        "units": "code 1=geophone up negative, 2=geophone up positive"
+      },
+      "polartiy_vib": {
+        "start_byte": 59,
+        "length_bytes": 2,
+        "units": "code"
+      },
+      "segy_rev": {
+        "start_byte": 101,
+        "length_bytes": 2,
+        "units": "#"
+      },
+      "fixed_length_flag": {
+        "start_byte": 103,
+        "length_bytes": 2,
+        "units": "1 = all traces in file have same length"
+      },
+      "extended_header_count": {
+        "start_byte": 105,
+        "length_bytes": 2,
+        "units": "number of extra 3200 byte extended file headers"
+      }
+    }
+  },
+  "trace_header": {
+    "bytes": 240,
+    "fields": {
+      "trace_sequence_in_line": {
+        "start_byte": 1,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "trace_sequence_in_file": {
+        "start_byte": 5,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "field_record": {
+        "start_byte": 9,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "field_trace": {
+        "start_byte": 13,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "source_number": {
+        "start_byte": 17,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "ensemble_number": {
+        "start_byte": 21,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "trace_in_ensemble": {
+        "start_byte": 25,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "trace_id_code": {
+        "start_byte": 29,
+        "length_bytes": 4,
+        "units": "code"
+      },
+      "summed_traces": {
+        "start_byte": 31,
+        "length_bytes": 2,
+        "units": "#"
+      },
+      "stacked_traces": {
+        "start_byte": 33,
+        "length_bytes": 2,
+        "units": "#"
+      },
+      "data_use": {
+        "start_byte": 35,
+        "length_bytes": 2,
+        "units": "code 1=production 2=test"
+      },
+      "shot_receiver_offset": {
+        "start_byte": 37,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "receiver_elevation": {
+        "start_byte": 41,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "shot_elevation": {
+        "start_byte": 45,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "shot_depth": {
+        "start_byte": 49,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "receiver_datum_elevation": {
+        "start_byte": 53,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "shot_datum_elevation": {
+        "start_byte": 57,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "shot_water_depth": {
+        "start_byte": 61,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "receiver_water_depth": {
+        "start_byte": 65,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "scalar_elevation": {
+        "start_byte": 69,
+        "length_bytes": 2,
+        "units": "multiplier if positive divisor if negative"
+      },
+      "scalar_coordinate": {
+        "start_byte": 71,
+        "length_bytes": 2,
+        "units": "multiplier if positive divisor if negative"
+      },
+      "source_x": {
+        "start_byte": 73,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "source_y": {
+        "start_byte": 77,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "receiver_x": {
+        "start_byte": 81,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "receiver_y": {
+        "start_byte": 85,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "coordinate_code": {
+        "start_byte": 89,
+        "length_bytes": 2,
+        "units": "code 1=survey units, 2=arc seconds, 3=decimal degrees,4=DDDMMSS"
+      },
+      "weathering_velocity": {
+        "start_byte": 91,
+        "length_bytes": 2,
+        "units": "survey units/second"
+      },
+      "subweathering_velocity": {
+        "start_byte": 93,
+        "length_bytes": 2,
+        "units": "survey units/second"
+      },
+      "samples_trace": {
+        "start_byte": 115,
+        "length_bytes": 2,
+        "units": "samples"
+      },
+      "sample_interval": {
+        "start_byte": 117,
+        "length_bytes": 2,
+        "units": "micro seconds"
+      },
+      "cdp_x": {
+        "start_byte": 181,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "cdp_y": {
+        "start_byte": 185,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "inline": {
+        "start_byte": 189,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "crossline": {
+        "start_byte": 193,
+        "length_bytes": 4,
+        "units": "#"
+      }
+    }
+  },
+  "trace_data": {
+    "bytes": null,
+    "format": [
+      "ibm",
+      "ieee",
+      "int32",
+      "int16",
+      "int8"
+    ]
+  },
+  "byte_order" : "big"
+}

@@ -1,0 +1,6 @@
+numpy
+scipy
+matplotlib
+ibm2ieee
+shapely
+descartes
