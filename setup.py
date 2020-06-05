@@ -4,7 +4,7 @@ long_description = open("README.md", "r").read()
 
 setuptools.setup(
     name="segy_lite",
-    version="0.0.1",
+    version="0.0.2",
     author="Aaron Close",
     author_email="adclose@gmail.com",
     description="Lightweight SEGY Reading and Plotting Tool",
