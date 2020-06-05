@@ -1,18 +1,19 @@
 import setuptools
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+long_description = open("README.md", "r").read()
 
 setuptools.setup(
-    name="segy_lite", # Replace with your own username
+    name="segy_lite",
     version="0.0.1",
     author="Aaron Close",
-    author_email="aaron@gmail.com   ",
-    description="Segy driver for multi cloud",
+    author_email="adclose@gmail.com",
+    description="Lightweight SEGY Reading and Plotting Tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/adclose/segy_blob",
-    packages=setuptools.find_packages(),
+    install_requires=['numpy', 'scipy', 'matplotlib', 'ibm2ieee', 'ebcdic', 'shapely', 'descartes'],
+    url="https://github.com/adclose/segy_lite",
+    packages=setuptools.find_packages(exclude='tests'),
+    package_data={"": ["assets/*.json"]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache 2.0 License",

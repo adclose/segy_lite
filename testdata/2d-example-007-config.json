@@ -1,0 +1,54 @@
+{
+  "trace_header": {
+    "bytes": 240,
+    "fields": {
+      "source_x": {
+        "start_byte": 71,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "source_y": {
+        "start_byte": 75,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "receiver_x": {
+        "start_byte": 71,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "receiver_y": {
+        "start_byte": 75,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "cdp_x": {
+        "start_byte": 71,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "cdp_y": {
+        "start_byte": 75,
+        "length_bytes": 4,
+        "units": "survey units"
+      },
+      "crossline": {
+        "start_byte": 21,
+        "length_bytes": 4,
+        "units": "#"
+      },
+      "inline": {
+        "start_byte": 17,
+        "length_bytes": 4,
+        "units": "#"
+      },
+       "scalar_coordinate": {
+        "start_byte": 71,
+        "length_bytes": 2,
+        "constant": 0,
+        "units": "multiplier if positive divisor if negative"
+      }
+    }
+  },
+  "byte_order" : "big"
+}

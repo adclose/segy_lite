@@ -2,5 +2,6 @@ numpy
 scipy
 matplotlib
 ibm2ieee
+ebcdic
 shapely
 descartes
