@@ -4,7 +4,7 @@ long_description = open("README.md", "r").read()
 
 setuptools.setup(
     name="segy_lite",
-    version="0.0.2",
+    version="0.0.3",
     author="Aaron Close",
     author_email="adclose@gmail.com",
     description="Lightweight SEGY Reading and Plotting Tool",
@@ -16,7 +16,12 @@ setuptools.setup(
     package_data={"": ["assets/*.json"]},
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache 2.0 License",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Intended Audience :: Science/Research",
+        "Topic :: Scientific/Engineering :: GIS",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
