@@ -3,6 +3,9 @@ import matplotlib.colors as colors
 import numpy as np
 import io
 import base64
+import copy
+
+
 
 def plotSeismic(segy_file,**kwargs):
     options = {
@@ -13,7 +16,10 @@ def plotSeismic(segy_file,**kwargs):
             'dpi':160,
             'reverse_order': False,
             "color_map": "seismic",
-            "variable_density": True,
+            "variable_density": False,
+            "wiggle": True,
+            "variable_area":True,
+            "skip":1,
             "base64out" : False,
             "fileout": False,
             "filelikeobjectout":True}
@@ -32,23 +38,23 @@ def plotSeismic(segy_file,**kwargs):
 
     fig = plotSeismicLine(traces,**options)
     section_file = io.BytesIO()
-    plt.savefig(section_file, format='png', dpi=options['dpi'], antialiased=1)
-    plt.close()
+    fig.savefig(section_file, format='png', dpi=options['dpi'], antialiased=1)
 
     fig = plotFrequencies(traces, segy_file.bin_header['sample_interval'],5)
     freq_file = io.BytesIO()
-    plt.savefig(freq_file, format='png', dpi=options['dpi'], antialiased=1)
-    plt.close()
+    fig.savefig(freq_file, format='png', dpi=options['dpi'], antialiased=1)
 
     result = {}
     if options['filelikeobjectout']:
+        section_file.seek(0)
+        freq_file.seek(0)
         result['section_flo'] = section_file
         result['freq_flo'] = freq_file
     if options['fileout']:
         section_file.seek(0)
+        freq_file.seek(0)
         open(options['tmpdir'] + "section.png",'wb').write(section_file.read())
         result['section_file'] = options['tmpdir'] + "section.png"
-        freq_file.seek(0)
         open(options['tmpdir'] + "frequency.png", 'wb').write(freq_file.read())
         result['freq_file'] = options['tmpdir'] + "frequency.png"
     if options['base64out']:
@@ -62,9 +68,15 @@ def plotSeismic(segy_file,**kwargs):
 def plotSeismicLine(values_matrix, **kwargs):
     options ={'x_range':range(values_matrix.shape[0]),
              'y_range':range(values_matrix.shape[1]),
-             'color_map':"seismic"}
+             'color_map':"seismic",
+              'line_width':.5,
+              'gain': 3,
+              'color':'black'
+              }
     options.update(kwargs)
-    y, x = np.mgrid[options['y_range'],options['x_range']]
+
+    #y, x = np.mgrid[options['y_range'],options['x_range']]
+
     z = np.transpose(values_matrix)
     zmax = np.percentile(z, 98)
     zmin = np.percentile(z, 2)
@@ -75,9 +87,58 @@ def plotSeismicLine(values_matrix, **kwargs):
     # fig, (ax0, ax1) = plt.subplots(nrows=2)
     fig = plt.figure(figsize=[16, 9])
     ax0 = fig.add_axes([0, 0, 1, 1])
-    ax0.imshow(z, origin='upper', norm=norm, cmap=options['color_map'],interpolation='bicubic',aspect="auto")
+    if (options['variable_density']):
+        ax0.imshow(z, origin='upper', norm=norm, cmap=options['color_map'],interpolation='bicubic',aspect="auto")
+        return fig
+    else:
+        gain = options['gain']
+        line_width = options['line_width']
+        ns = values_matrix.shape[1]
+        ntraces = values_matrix.shape[0]
+        max_traces = 1500
+        step = 1
+        if max_traces < ntraces:
+            step = int(np.ceil(ntraces/max_traces))
 
-    return fig
+        samples= np.array(range(ns))
+
+        for i in range(0, ntraces,step):
+            # use copy to avoid truncating the data
+            trace = copy.copy(values_matrix[i, :])
+            trace[0] = 0
+            trace[-1] = 0
+            trace = trace*gain/zmax
+            ax0.plot(i+trace, samples,color=options['color'], linewidth=line_width)
+            if (options["variable_area"]):
+                filltrace = copy.copy(trace)
+                filltrace[trace<0] = 0
+                ax0.fill(i + filltrace,samples, 'k', linewidth=0, color=options['color'])
+
+    ax0.grid(True)
+    ax0.invert_yaxis()
+    plt.ylim([np.max(samples), np.min(samples)])
+    plt.xlim([ntraces, 0])
+    return plt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def plotFrequencies(z_matrix, sample_interval,windows =1):
     zlen = z_matrix.shape[1]
@@ -132,77 +193,3 @@ def interpolate(z_matrix,current_sample_rate, requested_sample_rate):
     out_matrix  = sig.resample(z_matrix,new_samples,axis=1)
     return out_matrix
 
-
-
-def plot_wiggle(z_matrix,**kwargs):
-    options={'color':'black',
-             'skip': 10
-             }
-    options.update(kwargs)
-
-    def wiggle(Data, SH={}, maxval=-1, skipt=1, lwidth=.5, x=[], t=[], gain=1, type='VA', color='black', ntmax=1e+9):
-        """
-        wiggle(Data,SH)
-        """
-        import matplotlib.pylab as plt
-        import numpy as np
-        import copy
-
-        yl = 'Sample number'
-
-        ns = Data.shape[0]
-        ntraces = Data.shape[1]
-
-        if ntmax < ntraces:
-            skipt = int(np.floor(ntraces / ntmax))
-            if skipt < 1:
-                skipt = 1
-
-        if len(x) == 0:
-            x = range(0, ntraces)
-
-        if len(t) == 0:
-            t = range(0, ns)
-        else:
-            yl = 'Time  [s]'
-
-        # overrule time form SegyHeader
-        if 'time' in SH:
-            t = SH['time']
-            yl = 'Time  [s]'
-
-        dx = x[1] - x[0]
-        if (maxval <= 0):
-            Dmax = np.nanmax(Data)
-            maxval = -1 * maxval * Dmax
-            print('segypy.wiggle: maxval = %g' % maxval)
-
-        # fig, (ax1) = plt.subplots(1, 1)'
-        fig = plt.gcf()
-        ax1 = plt.gca()
-
-        for i in range(0, ntraces, skipt):
-            # use copy to avoid truncating the data
-            trace = copy.copy(Data[:, i])
-            trace[0] = 0
-            trace[-1] = 0
-            ax1.plot(x[i] + gain * skipt * dx * trace / maxval, t, color=color, linewidth=lwidth)
-
-            if type == 'VA':
-                for a in range(len(trace)):
-                    if (trace[a] < 0):
-                        trace[a] = 0;
-                        # pylab.fill(i+Data[:,i]/maxval,t,color='k',facecolor='g')
-                # ax1.fill(x[i] + dx * Data[:, i] / maxval, t, 'k', linewidth=0, color=color)
-                ax1.fill(x[i] + gain * skipt * dx * trace / (maxval), t, 'k', linewidth=0, color=color)
-
-        ax1.grid(True)
-        ax1.invert_yaxis()
-        plt.ylim([np.max(t), np.min(t)])
-
-        plt.xlabel('Trace number')
-        plt.ylabel(yl)
-        if 'filename' in SH:
-            plt.title(SH['filename'])
-        # ax1.set_xlim(-1, ntraces)
-        # plt.show()

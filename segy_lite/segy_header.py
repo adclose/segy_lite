@@ -132,7 +132,8 @@ class segy(object):
     def get_traces(self, **kwargs):
         options = {'inline':[-np.inf, np.inf],
                    'crossline':[-np.inf, np.inf],
-                   'z_range':[-np.inf, np.inf]}
+                   'z_range':[-np.inf, np.inf],
+                   'reverse_order': False}
         options.update(kwargs)
 
         # Create bitmask filters
@@ -140,6 +141,11 @@ class segy(object):
         filterxl = (self.crossline>=np.min(options['crossline'])) & (self.crossline<=np.max(options['crossline']))
         filterz = ((self.trace_z_range>=np.min(options['z_range'])) & (self.trace_z_range<=np.max(options['z_range'])))
         trace_ids = self.trace_indexes[filteril & filterxl]
+        filterskips = np.array(range(len(trace_ids))) % options['skip'] == 0
+        trace_ids = trace_ids[filterskips]
+
+        if (options['reverse_order']):
+            trace_ids = trace_ids[::-1]
 
         # Get only data that is needed
         outtraces = []
@@ -188,7 +194,7 @@ class segy(object):
         xypoints = np.array([self.x_cord,self.y_cord,np.ones(len(self.inline))]).transpose()
         # calculate the affine transform matrix
         try:
-            z = np.linalg.lstsq(inline_crossline, xypoints)
+            z = np.linalg.lstsq(inline_crossline, xypoints,rcond=None)
             transform = z[0]
         except:
             transform = False
