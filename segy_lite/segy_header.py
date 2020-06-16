@@ -24,8 +24,7 @@ class segy(object):
     def get_config(self):
         self.config = json.load(open(self.config_path, "r"))
         if self.custom_config != "":
-            custom = json.load(open(self.custom_config, "r"))
-            self.config = self.__update(self.config, custom)
+            self.config = self.__update(self.config, self.custom_config)
         self.byte_order = self.config['byte_order']
         self.byte_order_symbol = ">" if self.byte_order == 'big' else ">"
 

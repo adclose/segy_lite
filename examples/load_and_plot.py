@@ -7,9 +7,11 @@ tempdir = 'tmp/'
 datadir = 'testdata/'
 
 dpi = 160
-structure_file = "custom-segy-config.json"
 
-config_path = os.path.join(datadir, structure_file)
+#structure_file = "custom-segy-config.json"
+#config_path = os.path.join(datadir, structure_file)
+#custom_config = json.load(open(config_path,"r"))
+
 file_names = glob.glob(datadir + '*.s*gy')
 # file_names = [datadir + "volve-3d.segy"]
 
@@ -17,7 +19,7 @@ for file_name in file_names:
     base_name = os.path.splitext(os.path.basename(file_name))[0]
     file_handle = open(file_name, 'rb')
 
-    # segy_file = segy(file_handle,custom_config= config_path)
+    # segy_file = segy(file_handle,custom_config= custom_config)
     segy_file = segy(file_handle)
     # segy_file.scan_trace_headers() # Enables 3D extractions
     # segy_file.get_3d_parameters()  # Enables other 3D functions

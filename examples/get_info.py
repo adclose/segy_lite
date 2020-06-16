@@ -18,6 +18,7 @@ for file_name in file_names:
     file_handle = open(file_name, 'rb')
     if os.path.exists(dir + base_name + "-config.json"):
         config_path = dir + base_name + "-config.json"
+        custom_config = json.load(open(config_path,"r"))
         segy_file = segy(file_handle, custom_config=config_path)
     else:
         segy_file = segy(file_handle)
@@ -33,7 +34,7 @@ for file_name in file_names:
               "x_range": [int(segy_file.x_cord.min()), int(segy_file.x_cord.max())],
               "y_range": [int(segy_file.y_cord.min()), int(segy_file.y_cord.max())],
               "z_range": [min(segy_file.trace_z_range), max(segy_file.trace_z_range)],
-              # "affine_tranform": segy_file.transform
+              "affine_tranform": segy_file.transform
               }
 
     out_handle = open(tempdir + base_name + '_info.json', 'w')
