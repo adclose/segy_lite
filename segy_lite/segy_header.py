@@ -5,6 +5,7 @@ from ibm2ieee import ibm2float32
 import numpy as np
 
 
+
 class segy(object):
     file_path = os.path.dirname(__file__)
     structure_file = "assets/segyr1_structure.json"
