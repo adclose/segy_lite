@@ -4,7 +4,6 @@ from shapely.geometry import MultiPoint, LineString, mapping
 from ibm2ieee import ibm2float32
 import numpy as np
 
-
 class segy(object):
     file_path = os.path.dirname(__file__)
     structure_file = "assets/segyr1_structure.json"
@@ -133,7 +132,8 @@ class segy(object):
         options = {'inline': [-np.inf, np.inf],
                    'crossline': [-np.inf, np.inf],
                    'z_range': [-np.inf, np.inf],
-                   'reverse_order': False}
+                   'reverse_order': False,
+                   "skip":1}
         options.update(kwargs)
 
         # Create bitmask filters
@@ -200,11 +200,13 @@ class segy(object):
         except:
             transform = False
         # use the points to make a polygon around the survey and save as well known text
-        outline = mapping(MultiPoint(xypoints).convex_hull)
+        convex_hull = mapping(MultiPoint(xypoints).convex_hull)
+        outline = mapping(MultiPoint(xypoints).minimum_rotated_rectangle)
         # compile the return dictonary file
         self.dimensions = 3
         self.transform = transform
         self.geom = outline
+        self.convex_hull = convex_hull
 
         inline_mesh, crossline_mesh = np.meshgrid(range(self.inline.min(), self.inline.max()),
                                                   range(self.crossline.min(), self.crossline.max()))
@@ -258,7 +260,7 @@ class segy(object):
         except:
             return 0
 
-    def xy2il(self, xs, ys):
+    def xy2ic(self, xs, ys):
         matrix = np.array([xs, ys, np.ones(len(xs))]).transpose()
         tint = np.linalg.inv(self.transform)
         ic = np.matmul(matrix, tint).astype(int)
