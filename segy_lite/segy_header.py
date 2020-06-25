@@ -4,6 +4,7 @@ from shapely.geometry import MultiPoint, LineString, mapping
 from ibm2ieee import ibm2float32
 import numpy as np
 
+
 class segy(object):
     file_path = os.path.dirname(__file__)
     structure_file = "assets/segyr1_structure.json"
@@ -260,7 +261,7 @@ class segy(object):
         except:
             return 0
 
-    def xy2ic(self, xs, ys):
+    def xy2il(self, xs, ys):
         matrix = np.array([xs, ys, np.ones(len(xs))]).transpose()
         tint = np.linalg.inv(self.transform)
         ic = np.matmul(matrix, tint).astype(int)
